@@ -14,7 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.halitakca.jetpackcompose_mvmm.ui.theme.JetpackComposeMVMMTheme
+import com.halitakca.jetpackcompose_mvmm.viewmodel.PageViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ fun Page(){
     val tf1Number = remember { mutableStateOf("") }
     val tf2Number = remember { mutableStateOf("") }
     val result = remember { mutableStateOf("0") }
+    val viewModel : PageViewModel = viewModel()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -48,21 +51,15 @@ fun Page(){
         TextField(value = tf1Number.value, onValueChange = {tf1Number.value  = it}, label = { Text(text = "Number 1")})
         TextField(value = tf2Number.value, onValueChange = {tf2Number.value  = it}, label = { Text(text = "Number 2")})
 
-
-
         Button(onClick = {
-            val number1 = tf1Number.value.toInt()
-            val number2 = tf2Number.value.toInt()
-            val sum = number1 + number2
-            result.value = sum.toString()
+            viewModel.sum(tf1Number.value,tf2Number.value)
+            result.value = viewModel.result
         }) {
             Text(text = "SUM")
         }
         Button(onClick = {
-            val number1 = tf1Number.value.toInt()
-            val number2 = tf2Number.value.toInt()
-            val mult = number1 * number2
-            result.value = mult.toString()
+            viewModel.multiply(tf1Number.value,tf2Number.value)
+            result.value = viewModel.result
         }) {
             Text(text = "MULT")
         }
