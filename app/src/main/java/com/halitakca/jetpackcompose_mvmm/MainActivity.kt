@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,8 +40,9 @@ class MainActivity : ComponentActivity() {
 fun Page(){
     val tf1Number = remember { mutableStateOf("") }
     val tf2Number = remember { mutableStateOf("") }
-    val result = remember { mutableStateOf("0") }
     val viewModel : PageViewModel = viewModel()
+//    val result = remember { mutableStateOf("0") }
+    val result = viewModel.result.observeAsState("0")
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -53,13 +55,13 @@ fun Page(){
 
         Button(onClick = {
             viewModel.sum(tf1Number.value,tf2Number.value)
-            result.value = viewModel.result
+            // Not Needed anymore: result.value = viewModel.result
         }) {
             Text(text = "SUM")
         }
         Button(onClick = {
             viewModel.multiply(tf1Number.value,tf2Number.value)
-            result.value = viewModel.result
+            // Not Needed anymore: result.value = viewModel.result
         }) {
             Text(text = "MULT")
         }
